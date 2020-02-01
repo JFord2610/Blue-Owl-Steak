@@ -24,7 +24,7 @@ public class SwordTriggerScript : MonoBehaviour
             enemyController.TakeDamage(GameManager.instance.playerController.swordDamage);
             enemyController.Knockback((transform.position - enemyController.transform.position).normalized);
 
-            Invoke("DestroyParticles", 0.7f);
+            Invoke("DestroyParticles", 1.5f);
 
             col.enabled = false;
         }
