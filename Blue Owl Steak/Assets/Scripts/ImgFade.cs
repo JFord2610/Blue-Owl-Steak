@@ -7,7 +7,7 @@ public class ImgFade : MonoBehaviour
 {
     [SerializeField] Image load;
     public float fadeSpd = 1f;
-    public float TimeLimit = 2f;
+    public float TimeLimit = 7f;
     bool fadingToBlack = false;
     bool fading = false;
 
@@ -18,7 +18,6 @@ public class ImgFade : MonoBehaviour
             return TimeLimit + (fadeSpd * 2);
         }
     }
-    float TimeLimit = 7f;
 
     public void FadeToBlack()
     {

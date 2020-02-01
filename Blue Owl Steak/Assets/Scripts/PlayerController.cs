@@ -72,6 +72,7 @@ public class PlayerController : MonoBehaviour
                 holdingObject = false;
                 objectBeingHeld.transform.parent = transform.parent;
                 objectBeingHeld.transform.GetComponent<Rigidbody>().useGravity = true;
+                EventManager.InvokePlayerDroppedItem();
             }
         }
         else if(Input.GetKeyDown(KeyCode.F))

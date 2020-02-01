@@ -14,19 +14,25 @@ public class RocketScript : MonoBehaviour
     {
         gameManager = GameManager.instance;
         player = gameManager.player;
+        playerController = gameManager.playerController;
+        EventManager.PlayerDroppedItemEvent += OnPlayerDroppedItem;
     }
 
-    private void Update()
+    void OnPlayerDroppedItem()
     {
-        //check distance to player
-        if((player.transform.position - transform.position).magnitude <= playerCloseEnough && playerController.objectBeingHeld?.tag == "Part")
+        if ((player.transform.position - transform.position).magnitude <= playerCloseEnough && playerController?.objectBeingHeld.tag == "Part")
         {
             playerController.disabled = true;
             gameManager.fade.FadeToBlack();
             Invoke("EnablePlayer", gameManager.fade.totalFadeTime);
+            Invoke("DestroyPart", gameManager.fade.fadeSpd);
         }
     }
-
+    
+    void DestroyPart()
+    {
+        Destroy(playerController.objectBeingHeld);
+    }
 
     void EnablePlayer()
     {
