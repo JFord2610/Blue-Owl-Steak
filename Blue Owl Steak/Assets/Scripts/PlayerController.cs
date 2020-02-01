@@ -58,7 +58,6 @@ public class PlayerController : MonoBehaviour
             Vector3 vec = new Vector3(cam.transform.rotation.x - (Input.GetAxis("Mouse Y") * mouseSensitivity), 0, 0);
             cam.transform.rotation = Quaternion.Euler(cam.transform.rotation.eulerAngles + vec);
         }
-        //clamp camera x rotation
 
         if(holdingObject)
         {
