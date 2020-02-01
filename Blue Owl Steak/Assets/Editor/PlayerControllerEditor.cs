@@ -9,9 +9,13 @@ public class PlayerControllerEditor : Editor
     public override void OnInspectorGUI()
     {
         base.OnInspectorGUI();
-        if(GUILayout.Button("Hurt Player by like 10 or something idk"))
+        if(GUILayout.Button("Deal 10 damage to player"))
         {
             ((PlayerController)target).TakeDamage(10);
+        }
+        if(GUILayout.Button("Kill Player"))
+        {
+            ((PlayerController)target).TakeDamage(10000);
         }
     }
 }

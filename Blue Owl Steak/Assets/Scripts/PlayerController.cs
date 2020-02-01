@@ -35,6 +35,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float mouseSensitivity = 1.0f;
     [SerializeField] float jumpSpeed = 10.0f;
 
+    public bool dead = false;
     public bool disabled = false;
 
     [HideInInspector] public GameObject objectBeingHeld = null;
@@ -61,7 +62,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (disabled) return;
+        if (disabled || dead) return;
 
         #region movement
         moveVec.x = 0;
@@ -111,13 +112,16 @@ public class PlayerController : MonoBehaviour
                 objectBeingHeld.transform.position = Vector3.Lerp(objectBeingHeld.transform.position, holdingPoint.transform.position, Time.deltaTime);
             if (Input.GetKeyDown(KeyCode.F))
             {
-                holdingObject = false;
-                objectBeingHeld.transform.parent = transform.parent;
-                heldObjectRB = objectBeingHeld.GetComponent<Rigidbody>();
-                heldObjectRB.isKinematic = false;
-                heldObjectRB.useGravity = true;
-                heldObjectRB.velocity = cc.velocity;
                 EventManager.InvokePlayerDroppedItem();
+                holdingObject = false;
+                if (!((GameManager.instance.rocket.transform.position - transform.position).magnitude <= 5.0f))
+                {
+                    objectBeingHeld.transform.parent = transform.parent;
+                    heldObjectRB = objectBeingHeld.GetComponent<Rigidbody>();
+                    heldObjectRB.isKinematic = false;
+                    heldObjectRB.useGravity = true;
+                    heldObjectRB.velocity = cc.velocity;
+                }
             }
         }
         else if (Input.GetKeyDown(KeyCode.F))
@@ -141,17 +145,13 @@ public class PlayerController : MonoBehaviour
 
     void Death()
     {
-        Invoke("RespawnPlayer", 2.0f);
-    }
-
-    void RespawnPlayer()
-    {
-        transform.position = startPos;
-        _health = MaxHealth;
+        dead = true;
+        DeathEvent?.Invoke();
     }
 
     public void TakeDamage(float damage)
     {
+        if (dead) return;
         Health -= damage;
     }
 
@@ -166,4 +166,7 @@ public class PlayerController : MonoBehaviour
 
     public delegate void HealthHandler(float _health, float _maxHealth);
     public static HealthHandler HealthChangedEvent;
+
+    public delegate void EventHandler();
+    public static EventHandler DeathEvent;
 }
