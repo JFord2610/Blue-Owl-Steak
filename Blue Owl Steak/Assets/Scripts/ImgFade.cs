@@ -10,8 +10,7 @@ public class ImgFade : MonoBehaviour
     public bool IsDown;
     bool fadingToBlack = false;
     bool fading = false;
-    float TimePassed = 0f;
-    float TimeLimit = 2f;
+    float TimeLimit = 7f;
 
     public void FadeToBlack()
     {
@@ -29,6 +28,7 @@ public class ImgFade : MonoBehaviour
                 fadingToBlack = false;
                 fading = false;
                 Invoke("FadeFromBlack", TimeLimit);
+                SoundManager.instance.PlayRepair();
             }
             if (load.color.a <= 0)
             {
@@ -36,10 +36,10 @@ public class ImgFade : MonoBehaviour
             }
         }
 
-        //if (Input.GetKeyDown(KeyCode.F))
-        //{
-        //    FadeToBlack();
-        //}
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            FadeToBlack();
+        }
         IsDown = true;
     }
 
