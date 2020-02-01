@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     public bool disabled = false;
 
     [HideInInspector] public GameObject objectBeingHeld = null;
+    Rigidbody heldObjectRB = null;
     bool holdingObject = false;
 
     //references
@@ -84,7 +85,10 @@ public class PlayerController : MonoBehaviour
             {
                 holdingObject = false;
                 objectBeingHeld.transform.parent = transform.parent;
-                objectBeingHeld.transform.GetComponent<Rigidbody>().useGravity = true;
+                heldObjectRB = objectBeingHeld.GetComponent<Rigidbody>();
+                heldObjectRB.isKinematic = false;
+                heldObjectRB.useGravity = true;
+                heldObjectRB.velocity = cc.velocity;
                 EventManager.InvokePlayerDroppedItem();
             }
         }
@@ -95,6 +99,8 @@ public class PlayerController : MonoBehaviour
             if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, 2.0f, LayerMask.GetMask("Interactable")))
             {
                 hit.transform.parent = holdingPoint.transform;
+                hit.transform.rotation = Quaternion.Euler(0, cam.transform.rotation.y, 0);
+                hit.transform.GetComponent<Rigidbody>().isKinematic = true;
                 hit.transform.GetComponent<Rigidbody>().useGravity = false;
                 objectBeingHeld = hit.transform.gameObject;
                 holdingObject = true;
