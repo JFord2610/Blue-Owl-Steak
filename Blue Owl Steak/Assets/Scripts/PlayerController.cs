@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float moveSpeed = 10.0f;
     [SerializeField] float gravityStrength = 3.0f;
     [SerializeField] float mouseSensitivity = 1.0f;
+    [SerializeField] float jumpSpeed = 10.0f;
 
     public bool disabled = false;
 
@@ -20,6 +21,8 @@ public class PlayerController : MonoBehaviour
     Camera cam = null;
 
     Vector3 moveVec = Vector3.zero;
+    float xRot = 0.0f;
+    [SerializeField] float yRot = 0.0f;
     private void Start()
     {
         cc = GetComponent<CharacterController>();
@@ -31,9 +34,11 @@ public class PlayerController : MonoBehaviour
     {
         if (disabled) return;
 
-        //wasd movement
+        #region movement
         moveVec.x = 0;
         moveVec.z = 0;
+        if (cc.isGrounded)
+            moveVec.y = 0;
         if (Input.GetKey(KeyCode.W))
         {
             moveVec += transform.forward * moveSpeed;
@@ -50,24 +55,32 @@ public class PlayerController : MonoBehaviour
         {
             moveVec += transform.right * moveSpeed;
         }
-
-        //camera movement
-        if (Input.GetAxis("Mouse X") != 0)
+        if (Input.GetKey(KeyCode.Space) && cc.isGrounded)
         {
-            Vector3 vec = new Vector3(0, transform.rotation.y + (Input.GetAxis("Mouse X") * mouseSensitivity), 0);
-            transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles + vec);
-        }
-        if (Input.GetAxis("Mouse Y") != 0)
-        {
-            Vector3 vec = new Vector3(cam.transform.rotation.x - (Input.GetAxis("Mouse Y") * mouseSensitivity), 0, 0);
-            cam.transform.rotation = Quaternion.Euler(cam.transform.rotation.eulerAngles + vec);
+            moveVec.y = jumpSpeed;
         }
 
-        if(holdingObject)
+        //apply gravity
+        moveVec.y -= gravityStrength * Time.deltaTime;
+
+        #endregion
+
+        #region camera
+        xRot += Input.GetAxis("Mouse Y") * mouseSensitivity;
+        yRot += Input.GetAxis("Mouse X") * mouseSensitivity;
+
+        xRot = Mathf.Clamp(xRot, -90.0f, 90.0f);
+
+        transform.rotation = Quaternion.Euler(0, yRot, 0);
+        cam.transform.rotation = Quaternion.Euler(new Vector3(-xRot, 0, 0) + transform.rotation.eulerAngles);
+        #endregion
+
+        #region interacting
+        if (holdingObject)
         {
-            if(Vector3.Distance(holdingPoint.transform.position, objectBeingHeld.transform.position) >= 0.01f)
+            if (Vector3.Distance(holdingPoint.transform.position, objectBeingHeld.transform.position) >= 0.01f)
                 objectBeingHeld.transform.position = Vector3.Lerp(objectBeingHeld.transform.position, holdingPoint.transform.position, Time.deltaTime);
-            if(Input.GetKeyDown(KeyCode.F))
+            if (Input.GetKeyDown(KeyCode.F))
             {
                 holdingObject = false;
                 objectBeingHeld.transform.parent = transform.parent;
@@ -75,7 +88,7 @@ public class PlayerController : MonoBehaviour
                 EventManager.InvokePlayerDroppedItem();
             }
         }
-        else if(Input.GetKeyDown(KeyCode.F))
+        else if (Input.GetKeyDown(KeyCode.F))
         {
             RaycastHit hit;
             Debug.DrawRay(cam.transform.position, cam.transform.forward, Color.red, 2.0f);
@@ -87,12 +100,14 @@ public class PlayerController : MonoBehaviour
                 holdingObject = true;
             }
         }
+        #endregion
+
         cc.Move(moveVec * Time.deltaTime);
     }
 
     IEnumerator LerpRotation(Transform obj)
     {
-        while(Vector3.Distance(cam.transform.rotation.eulerAngles, obj.rotation.eulerAngles) >= 0.01f)
+        while (Vector3.Distance(cam.transform.rotation.eulerAngles, obj.rotation.eulerAngles) >= 0.01f)
         {
             obj.rotation = Quaternion.Euler(Vector3.Lerp(obj.rotation.eulerAngles, cam.transform.rotation.eulerAngles, Time.deltaTime));
             yield return new WaitForFixedUpdate();

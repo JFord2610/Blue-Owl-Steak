@@ -25,7 +25,7 @@ public class RocketScript : MonoBehaviour
             playerController.disabled = true;
             gameManager.fade.FadeToBlack();
             Invoke("EnablePlayer", gameManager.fade.totalFadeTime);
-            Invoke("DestroyPart", gameManager.fade.fadeSpd);
+            Invoke("DestroyPart", gameManager.fade.fadeSpd * 2);
         }
     }
     
