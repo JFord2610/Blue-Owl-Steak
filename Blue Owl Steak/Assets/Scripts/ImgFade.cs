@@ -1,18 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ImgFade : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] Image load;
+    [SerializeField] float fadeSpd = 1f;
+    public bool IsDown;
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            load.color -= new Color(0, 0, 0, Time.deltaTime * fadeSpd) ;
+        }
+
+        IsDown = true;
     }
 }
