@@ -10,7 +10,7 @@ public class ImgFade : MonoBehaviour
     public float TimeLimit = 2f;
     bool fadingToBlack = false;
     bool fading = false;
-    float TimePassed = 0f;
+
     public float totalFadeTime
     {
         get
@@ -18,6 +18,7 @@ public class ImgFade : MonoBehaviour
             return TimeLimit + (fadeSpd * 2);
         }
     }
+    float TimeLimit = 7f;
 
     public void FadeToBlack()
     {
@@ -35,6 +36,7 @@ public class ImgFade : MonoBehaviour
                 fadingToBlack = false;
                 fading = false;
                 Invoke("FadeFromBlack", TimeLimit);
+                SoundManager.instance.PlayRepair();
             }
             if (load.color.a <= 0)
             {
