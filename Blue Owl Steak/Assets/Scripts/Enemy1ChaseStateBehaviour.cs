@@ -27,9 +27,10 @@ public class Enemy1ChaseStateBehaviour : StateMachineBehaviour
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         enemyAgent.SetDestination(playerTransform.position);
-        if((playerTransform.position - enemyTransform.position).magnitude <= 2f)
+        if((playerTransform.position - enemyTransform.position).magnitude <= 1.25f)
         {
             enemyAgent.SetDestination(enemyTransform.position);
+            enemyTransform.LookAt(playerTransform);
             animator.SetTrigger("Attack");
         }
         else if((playerTransform.position - enemyTransform.position).magnitude > 8.0f)

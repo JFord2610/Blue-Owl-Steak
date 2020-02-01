@@ -55,6 +55,8 @@ public class PlayerController : MonoBehaviour
         cc = GetComponent<CharacterController>();
         cam = Camera.main;
         Cursor.lockState = CursorLockMode.Locked;
+
+        Health = MaxHealth;
     }
 
     private void Update()
@@ -146,6 +148,11 @@ public class PlayerController : MonoBehaviour
     {
         transform.position = startPos;
         _health = MaxHealth;
+    }
+
+    public void TakeDamage(float damage)
+    {
+        Health -= damage;
     }
 
     IEnumerator LerpRotation(Transform obj)

@@ -27,13 +27,13 @@ public class EnemyController : MonoBehaviour, IDamageable
         }
     }
     [SerializeField] float MaxHealth = 10.0f;
-
-    [SerializeField] Transform target = null;
+    public float damage = 10.0f;
 
     public Vector3 startPos = Vector3.zero;
     NavMeshAgent agent = null;
     Animator anim = null;
     GameObject player = null;
+    [SerializeField] BoxCollider col = null;
     void Start()
     {
         startPos = transform.position;
@@ -46,7 +46,6 @@ public class EnemyController : MonoBehaviour, IDamageable
         anim.SetFloat("forwardMovement", Vector3.Dot(agent.velocity, transform.forward));
         anim.SetFloat("rightMovement", Vector3.Dot(agent.velocity, transform.forward));
         anim.SetFloat("distanceToPlayer", (player.transform.position - transform.position).magnitude);
-        //agent.SetDestination(target.position);
     }
     public void TakeDamage(float damage)
     {
@@ -56,5 +55,23 @@ public class EnemyController : MonoBehaviour, IDamageable
     void Kill()
     {
         Destroy(gameObject);
+    }
+
+    public void EnableCollider()
+    {
+        col.enabled = false;
+    }
+
+    public void DisableCollider()
+    {
+        col.enabled = true;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.tag == "Player")
+        {
+            player.GetComponent<PlayerController>().TakeDamage(damage);
+        }
     }
 }
