@@ -40,6 +40,7 @@ public class EnemyController : MonoBehaviour, IDamageable
         agent = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
         player = GameManager.instance.player;
+        Health = MaxHealth;
     }
     private void Update()
     {
