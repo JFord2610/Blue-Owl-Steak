@@ -34,7 +34,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float gravityStrength = 3.0f;
     [SerializeField] float mouseSensitivity = 1.0f;
     [SerializeField] float jumpSpeed = 10.0f;
+    public float swordDamage = 50.0f;
 
+    public bool dead = false;
     public bool disabled = false;
 
     [HideInInspector] public GameObject objectBeingHeld = null;
@@ -45,14 +47,17 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject holdingPoint = null;
     CharacterController cc = null;
     Camera cam = null;
-    Vector3 startPos = Vector3.zero;
+    Animator anim = null;
+    [SerializeField] BoxCollider swordCol = null;
 
+    Vector3 startPos = Vector3.zero;
     Vector3 moveVec = Vector3.zero;
     float xRot = 0.0f;
     [SerializeField] float yRot = 0.0f;
     private void Start()
     {
         cc = GetComponent<CharacterController>();
+        anim = GetComponent<Animator>();
         cam = Camera.main;
         Cursor.lockState = CursorLockMode.Locked;
 
@@ -61,7 +66,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (disabled) return;
+        if (disabled || dead) return;
 
         #region movement
         moveVec.x = 0;
@@ -111,19 +116,19 @@ public class PlayerController : MonoBehaviour
                 objectBeingHeld.transform.position = Vector3.Lerp(objectBeingHeld.transform.position, holdingPoint.transform.position, Time.deltaTime);
             if (Input.GetKeyDown(KeyCode.F))
             {
+                EventManager.InvokePlayerDroppedItem();
                 holdingObject = false;
                 objectBeingHeld.transform.parent = transform.parent;
                 heldObjectRB = objectBeingHeld.GetComponent<Rigidbody>();
                 heldObjectRB.isKinematic = false;
                 heldObjectRB.useGravity = true;
                 heldObjectRB.velocity = cc.velocity;
-                EventManager.InvokePlayerDroppedItem();
             }
         }
         else if (Input.GetKeyDown(KeyCode.F))
         {
             RaycastHit hit;
-            Debug.DrawRay(cam.transform.position, cam.transform.forward, Color.red, 2.0f);
+            //Debug.DrawRay(cam.transform.position, cam.transform.forward, Color.red, 2.0f);
             if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, 2.0f, LayerMask.GetMask("Interactable")))
             {
                 hit.transform.parent = holdingPoint.transform;
@@ -136,23 +141,36 @@ public class PlayerController : MonoBehaviour
         }
         #endregion
 
+        #region combat
+        if (Input.GetMouseButtonDown(0))
+        {
+            anim.SetTrigger("Attack");
+        }
+        #endregion
+
+        anim.SetFloat("MoveSpeed", cc.velocity.magnitude);
         cc.Move(moveVec * Time.deltaTime);
     }
 
     void Death()
     {
-        Invoke("RespawnPlayer", 2.0f);
-    }
-
-    void RespawnPlayer()
-    {
-        transform.position = startPos;
-        _health = MaxHealth;
+        dead = true;
+        DeathEvent?.Invoke();
     }
 
     public void TakeDamage(float damage)
     {
+        if (dead) return;
         Health -= damage;
+    }
+
+    public void EnableSwordCollider()
+    {
+        swordCol.enabled = false;
+    }
+    public void DisableSwordCollider()
+    {
+        swordCol.enabled = true;
     }
 
     IEnumerator LerpRotation(Transform obj)
@@ -166,4 +184,7 @@ public class PlayerController : MonoBehaviour
 
     public delegate void HealthHandler(float _health, float _maxHealth);
     public static HealthHandler HealthChangedEvent;
+
+    public delegate void EventHandler();
+    public static EventHandler DeathEvent;
 }
