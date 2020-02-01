@@ -4,15 +4,32 @@ using UnityEngine;
 
 public class RocketScript : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] float playerCloseEnough = 5.0f; //I couldnt think of a good name sue me
+
+    GameManager gameManager = null;
+    GameObject player = null;
+    PlayerController playerController = null;
+
+    private void Start()
     {
-        
+        gameManager = GameManager.instance;
+        player = gameManager.player;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        //check distance to player
+        if((player.transform.position - transform.position).magnitude <= playerCloseEnough && playerController.objectBeingHeld?.tag == "Part")
+        {
+            playerController.disabled = true;
+            gameManager.fade.FadeToBlack();
+            Invoke("EnablePlayer", gameManager.fade.totalFadeTime);
+        }
+    }
+
+
+    void EnablePlayer()
+    {
+        playerController.disabled = false;
     }
 }

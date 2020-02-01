@@ -4,16 +4,20 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    //variables
     [SerializeField] float moveSpeed = 10.0f;
     [SerializeField] float gravityStrength = 3.0f;
     [SerializeField] float mouseSensitivity = 1.0f;
-    [SerializeField] GameObject holdingPoint = null;
+
     public bool disabled = false;
+
+    [HideInInspector] public GameObject objectBeingHeld = null;
+    bool holdingObject = false;
+
+    //references
+    [SerializeField] GameObject holdingPoint = null;
     CharacterController cc = null;
     Camera cam = null;
-
-    bool holdingObject = false;
-    GameObject objectBeingHeld = null;
 
     Vector3 moveVec = Vector3.zero;
     private void Start()

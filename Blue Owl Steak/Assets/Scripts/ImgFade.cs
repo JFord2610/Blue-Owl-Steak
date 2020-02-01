@@ -6,10 +6,18 @@ using UnityEngine.UI;
 public class ImgFade : MonoBehaviour
 {
     [SerializeField] Image load;
-    [SerializeField] float fadeSpd = 1f;
-    public bool IsDown;
+    public float fadeSpd = 1f;
+    public float TimeLimit = 2f;
     bool fadingToBlack = false;
     bool fading = false;
+
+    public float totalFadeTime
+    {
+        get
+        {
+            return TimeLimit + (fadeSpd * 2);
+        }
+    }
     float TimeLimit = 7f;
 
     public void FadeToBlack()
@@ -36,11 +44,10 @@ public class ImgFade : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            FadeToBlack();
-        }
-        IsDown = true;
+        //if (Input.GetKeyDown(KeyCode.F))
+        //{
+        //    FadeToBlack();
+        //}
     }
 
     public void FadeFromBlack()
