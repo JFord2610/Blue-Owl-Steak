@@ -33,7 +33,7 @@ public class Enemy1ChaseStateBehaviour : StateMachineBehaviour
             enemyTransform.LookAt(playerTransform);
             animator.SetTrigger("Attack");
         }
-        else if((playerTransform.position - enemyTransform.position).magnitude > 8.0f)
+        else if((playerTransform.position - enemyTransform.position).magnitude > 20.0f)
         {
             enemyAgent.SetDestination(enemyTransform.position);
         }
