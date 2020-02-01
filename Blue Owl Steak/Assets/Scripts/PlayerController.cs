@@ -4,7 +4,32 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    //health
+    float _health = 0;
+    public float Health
+    {
+        get
+        {
+            return _health;
+        }
+        set
+        {
+            if (value >= MaxHealth)
+                _health = MaxHealth;
+            else if (value <= 0)
+            {
+                Death();
+            }
+            else
+                _health = value;
+
+            HealthChangedEvent?.Invoke(_health, MaxHealth);
+        }
+    }
+    [SerializeField] float MaxHealth = 100.0f;
+
     //variables
+    [Header("General")]
     [SerializeField] float moveSpeed = 10.0f;
     [SerializeField] float gravityStrength = 3.0f;
     [SerializeField] float mouseSensitivity = 1.0f;
@@ -20,6 +45,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject holdingPoint = null;
     CharacterController cc = null;
     Camera cam = null;
+    Vector3 startPos = Vector3.zero;
 
     Vector3 moveVec = Vector3.zero;
     float xRot = 0.0f;
@@ -111,6 +137,17 @@ public class PlayerController : MonoBehaviour
         cc.Move(moveVec * Time.deltaTime);
     }
 
+    void Death()
+    {
+        Invoke("RespawnPlayer", 2.0f);
+    }
+
+    void RespawnPlayer()
+    {
+        transform.position = startPos;
+        _health = MaxHealth;
+    }
+
     IEnumerator LerpRotation(Transform obj)
     {
         while (Vector3.Distance(cam.transform.rotation.eulerAngles, obj.rotation.eulerAngles) >= 0.01f)
@@ -119,4 +156,7 @@ public class PlayerController : MonoBehaviour
             yield return new WaitForFixedUpdate();
         }
     }
+
+    public delegate void HealthHandler(float _health, float _maxHealth);
+    public static HealthHandler HealthChangedEvent;
 }
