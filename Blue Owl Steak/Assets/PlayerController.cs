@@ -9,12 +9,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float mouseSensitivity = 1.0f;
     public bool disabled = false;
     CharacterController cc = null;
+    Camera cam = null;
 
     Vector3 moveVec = Vector3.zero;
-    Vector3 rotVec = Vector3.zero;
     private void Start()
     {
         cc = GetComponent<CharacterController>();
+        cam = Camera.main;
         Cursor.lockState = CursorLockMode.Locked;
     }
 
@@ -22,26 +23,32 @@ public class PlayerController : MonoBehaviour
     {
         if (disabled) return;
 
-        Vector3 rot = transform.rotation.eulerAngles;
-        //lock rotations
-        rotVec.z = 0;
-
+        //wasd movement
         moveVec.x = 0;
         moveVec.z = 0;
         if (Input.GetKey(KeyCode.W))
         {
             moveVec += transform.forward * moveSpeed;
         }
-        if (Input.GetAxis("Mouse X") != 0)
+        if(Input.GetKey(KeyCode.S))
         {
-            rotVec += new Vector3(0, rot.y + (Input.GetAxis("Mouse X") * mouseSensitivity), 0);
+            moveVec -= transform.forward * moveSpeed;
         }
-        if (Input.GetAxis("Mouse Y") != 0)
+        if (Input.GetKey(KeyCode.A))
         {
-            rotVec += new Vector3(rot.x + (Input.GetAxis("Mouse Y") * mouseSensitivity), 0, 0);
+            moveVec -= transform.right * moveSpeed;
+        }
+        if (Input.GetKey(KeyCode.D))
+        {
+            moveVec += transform.right * moveSpeed;
         }
 
-        transform.rotation = Quaternion.Euler(rotVec);
+        //camera movement
+        if (Input.GetAxis("Mouse X") != 0)
+            transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles + new Vector3(0, transform.rotation.y + (Input.GetAxis("Mouse X") * mouseSensitivity), 0));
+        if (Input.GetAxis("Mouse Y") != 0)
+            cam.transform.rotation = Quaternion.Euler(cam.transform.rotation.eulerAngles + new Vector3(cam.transform.rotation.x - (Input.GetAxis("Mouse Y") * mouseSensitivity), 0, 0));
+        
         cc.Move(moveVec * Time.deltaTime);
     }
 }
