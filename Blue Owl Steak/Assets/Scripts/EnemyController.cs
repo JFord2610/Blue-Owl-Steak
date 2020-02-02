@@ -59,6 +59,7 @@ public class EnemyController : MonoBehaviour, IDamageable
     }
     public void TakeDamage(float damage)
     {
+        anim.SetTrigger("Damaged");
         Health -= damage;
     }
     public void Knockback(Vector3 _dir)
