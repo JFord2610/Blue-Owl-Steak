@@ -110,5 +110,5 @@ MonoBehaviour:
   isActive: 0
   hasStarted: 0
   target: {fileID: 0}
-  damage: 1
-  delay: 3
+  damage: 5
+  delay: 2
