@@ -12,13 +12,17 @@ public class UIManager : MonoBehaviour
 
     Image redFade = null;
     Image deathScreen = null;
+    Image winScreen = null;
 
     private void Start()
     {
         redFade = GameObject.Find("RedFade").GetComponent<Image>();
         deathScreen = GameObject.Find("DeathScreen").GetComponent<Image>();
+        winScreen = GameObject.Find("WinScreen").GetComponent<Image>();
 
         PlayerController.DeathEvent += () => { StartCoroutine("DeathRoutine");  };
+
+        EventManager.GameWinEvent += OnWin;
     }
 
     IEnumerator DeathRoutine()
@@ -40,5 +44,19 @@ public class UIManager : MonoBehaviour
     void ReloadScene()
     {
         SceneManager.LoadScene("JohnScene");
+    }
+
+    void OnWin()
+    {
+        StartCoroutine("FadeWinIn");
+    }
+    
+    IEnumerator FadeWinIn()
+    {
+        while (winScreen.color.a <= 1.0f)
+        {
+            winScreen.color = winScreen.color += new Color(0, 0, 0, Time.deltaTime * fadeSpeed);
+            yield return new WaitForEndOfFrame();
+        }
     }
 }

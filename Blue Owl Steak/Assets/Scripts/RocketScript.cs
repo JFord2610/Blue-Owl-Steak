@@ -9,6 +9,7 @@ public class RocketScript : MonoBehaviour
     GameManager gameManager = null;
     GameObject player = null;
     PlayerController playerController = null;
+    public int partCount = 0;
 
     private void Start()
     {
@@ -37,5 +38,11 @@ public class RocketScript : MonoBehaviour
     void EnablePlayer()
     {
         playerController.disabled = false;
+        partCount++;
+        Debug.Log($"Part Count: {partCount}");
+        if (partCount == 1)
+        {
+            EventManager.InvokeGameWinEvent();
+        }
     }
 }
