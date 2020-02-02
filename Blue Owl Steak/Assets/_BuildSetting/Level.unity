@@ -333,6 +333,7 @@ MonoBehaviour:
   playerController: {fileID: 0}
   rocket: {fileID: 0}
   fade: {fileID: 0}
+  parts: []
 --- !u!4 &112815011
 Transform:
   m_ObjectHideFlags: 0
@@ -2358,6 +2359,21 @@ MonoBehaviour:
   m_VoxelSize: 0.16666667
   m_BuildHeightMesh: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &1373729833 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8335208587562149473, guid: 14e1fa2957777f444a1b94d38f158b1a,
+    type: 3}
+  m_PrefabInstance: {fileID: 1066933025}
+  m_PrefabAsset: {fileID: 0}
+--- !u!45 &1373729837
+Skybox:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1373729833}
+  m_Enabled: 1
+  m_CustomSkybox: {fileID: 2100000, guid: 18a18be315858d64c9a8ce50ccd52e64, type: 2}
 --- !u!1 &1379231250
 GameObject:
   m_ObjectHideFlags: 0
