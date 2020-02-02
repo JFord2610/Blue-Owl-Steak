@@ -9,7 +9,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1069813919288616, guid: 3b076cd2947bc994ba17f2d8840ec989, type: 3}
       propertyPath: m_Name
-      value: Brick Wall Double Sided Large Type 1 Moveable (4)
+      value: Brick Wall Double Sided Large Type 1 Moveable (4) Variant
       objectReference: {fileID: 0}
     - target: {fileID: 4125143375474116, guid: 3b076cd2947bc994ba17f2d8840ec989, type: 3}
       propertyPath: m_LocalPosition.z
@@ -91,6 +91,11 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1.6167816
       objectReference: {fileID: 0}
+    - target: {fileID: 23638441112402432, guid: 3b076cd2947bc994ba17f2d8840ec989,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 8abc3ef28d0bc6b40aa6206858568cdc, type: 2}
     - target: {fileID: 54174554298243284, guid: 3b076cd2947bc994ba17f2d8840ec989,
         type: 3}
       propertyPath: m_IsKinematic
