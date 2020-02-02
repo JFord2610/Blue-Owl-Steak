@@ -16,7 +16,7 @@ public class RocketController : MonoBehaviour
     GameObject Phase3 = null;
 
     [SerializeField] float gatherDistance = 5.0f;
-    uint partsGathered = 0;
+    uint partsGathered = 2;
 
     private void Start()
     {
@@ -37,7 +37,7 @@ public class RocketController : MonoBehaviour
                 //init fade
                 GameManager.instance.fade.FadeToBlack();
                 Invoke("UpgradeShip", 4.0f);
-                Destroy(part); // the cause of th eneed for a null check
+                Destroy(part); 
             }
         }
     }
@@ -57,7 +57,6 @@ public class RocketController : MonoBehaviour
                 break;
             case 3:
                 EventManager.InvokeGameWinEvent();
-                GameManager.instance.fade.FadeFromBlack();
                 //win game
                 break;
         }
