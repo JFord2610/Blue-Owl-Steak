@@ -13,12 +13,15 @@ public class UIManager : MonoBehaviour
     Image redFade = null;
     Image deathScreen = null;
     Image winScreen = null;
+    GameObject fToInteract = null;
+    public bool canInteract = false;
 
     private void Start()
     {
         redFade = GameObject.Find("RedFade").GetComponent<Image>();
         deathScreen = GameObject.Find("DeathScreen").GetComponent<Image>();
         winScreen = GameObject.Find("WinScreen").GetComponent<Image>();
+        fToInteract = GameObject.Find("FToInteract");
 
         PlayerController.DeathEvent += () => { StartCoroutine("DeathRoutine"); };
 
@@ -28,6 +31,15 @@ public class UIManager : MonoBehaviour
     private void OnDisable()
     {
         EventManager.GameWinEvent -= OnWin;
+    }
+
+    private void Update()
+    {
+        if(canInteract)
+            fToInteract.SetActive(true);
+        else
+            fToInteract.SetActive(false);
+
     }
 
     IEnumerator DeathRoutine()

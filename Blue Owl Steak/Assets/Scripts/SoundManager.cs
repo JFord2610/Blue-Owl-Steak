@@ -1,16 +1,22 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
     public static SoundManager instance;
     AudioClip clink;
-    AudioSource SoundManagerSource;
+    AudioSource soundManagerSource;
 
     //Enemy clips
-    public static AudioClip walking = null;
-    public static AudioClip splat = null;
+    AudioClip walking = null;
+    AudioClip splat = null;
+
+    //music
+    AudioClip worldTheme1 = null;
+    AudioClip worldTheme2 = null;
+
+    float timer = 0;
+    int songIndex = 0;
 
     void Start()
     {
@@ -18,11 +24,17 @@ public class SoundManager : MonoBehaviour
         clink = Resources.Load<AudioClip>("Audio/part_repair");
         walking = Resources.Load<AudioClip>("Audio/enemy_walking_sound");
         splat = Resources.Load<AudioClip>("Audio/enemy_takedamage");
-        SoundManagerSource = GetComponent<AudioSource>();
+        worldTheme1 = Resources.Load<AudioClip>("Audio/open_world");
+        worldTheme2 = Resources.Load<AudioClip>("Audio/open_world2");
+        soundManagerSource = GetComponent<AudioSource>();
 
         EnemyStartWalkingEvent += OnEnemyStartWalking;
         EnemyStopWalkingEvent += OnEnemyStopWalking;
         EnemyTakeDamageEvent += OnEnemyTakeDamage;
+
+        soundManagerSource.clip = worldTheme1;
+        soundManagerSource.Play();
+        soundManagerSource.loop = true;
     }
 
     private void OnDestroy()
@@ -31,17 +43,24 @@ public class SoundManager : MonoBehaviour
         EnemyStopWalkingEvent -= OnEnemyStopWalking;
         EnemyTakeDamageEvent -= OnEnemyTakeDamage;
     }
+    
 
-    void Update()
+    void OnLoadLevel()
     {
-        
+
     }
 
     public void PlayRepair()
     {
-        SoundManagerSource.PlayOneShot(clink);
+        soundManagerSource.PlayOneShot(clink);
+    }
+    IEnumerator PlayDelay(AudioSource source)
+    {
+        yield return null;
+        source.Play();
     }
 
+    #region enemies
     void OnEnemyStartWalking(AudioSource source)
     {
         if (source.isPlaying && source.clip == splat)
@@ -63,14 +82,8 @@ public class SoundManager : MonoBehaviour
     {
         source.Stop();
         source.clip = splat;
-        StartCoroutine("idk", source);//it wont work if i just call play here idk its weird
+        StartCoroutine("PlayDelay", source);//it wont work if i just call play here idk its weird
     }
-    IEnumerator idk(AudioSource source)
-    {
-        yield return null;
-        source.Play();
-    }
-
     IEnumerator PlayWalk(AudioAndTime aot)
     {
         yield return new WaitForSeconds(aot.time);
@@ -79,7 +92,9 @@ public class SoundManager : MonoBehaviour
         aot.source.clip = walking;
         aot.source.Play();
     }
+    #endregion
 
+    #region events
     public delegate void AudioHandler(AudioSource src);
     public static event AudioHandler EnemyStartWalkingEvent;
     public static event AudioHandler EnemyStopWalkingEvent;
@@ -97,6 +112,7 @@ public class SoundManager : MonoBehaviour
     {
         EnemyTakeDamageEvent?.Invoke(src);
     }
+    #endregion
 }
 
 struct AudioAndTime

@@ -438,6 +438,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1eaaaaffa11ca1549908da4d45fb9af4, type: 3}
+--- !u!1 &919030301 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1080921044816769615, guid: 14e1fa2957777f444a1b94d38f158b1a,
+    type: 3}
+  m_PrefabInstance: {fileID: 8335208587477452041}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1002966197
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10139,16 +10145,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2305683737688193667, guid: 14e1fa2957777f444a1b94d38f158b1a,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8335208586650522267, guid: 14e1fa2957777f444a1b94d38f158b1a,
         type: 3}
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 8335208586650522268, guid: 14e1fa2957777f444a1b94d38f158b1a,
+        type: 3}
+      propertyPath: sword
+      value: 
+      objectReference: {fileID: 919030301}
     - target: {fileID: 8335208586650522269, guid: 14e1fa2957777f444a1b94d38f158b1a,
         type: 3}
       propertyPath: m_LocalPosition.x
