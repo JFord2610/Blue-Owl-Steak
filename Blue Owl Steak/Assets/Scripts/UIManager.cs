@@ -49,12 +49,14 @@ public class UIManager : MonoBehaviour
     void ReloadScene()
     {
         SceneManager.LoadScene("Level");
+        Cursor.visible = false;
     }
 
     void OnWin()
     {
         StartCoroutine("FadeWinIn");
         Invoke("ActivateButtons", fadeSpeed);
+        Cursor.visible = true;
     }
 
     IEnumerator FadeWinIn()

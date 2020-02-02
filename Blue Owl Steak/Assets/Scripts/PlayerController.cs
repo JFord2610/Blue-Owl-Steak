@@ -150,6 +150,7 @@ public class PlayerController : MonoBehaviour
                 heldObjectRB.useGravity = false;
                 holdingObject = true;
                 sword.SetActive(false);
+
             }
         }
         #endregion

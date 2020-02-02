@@ -17,7 +17,7 @@ public class RocketController : MonoBehaviour
     Transform spawnPoint = null;
 
     [SerializeField] float gatherDistance = 5.0f;
-    uint partsGathered = 2;
+    uint partsGathered = 0;
 
     private void Start()
     {
