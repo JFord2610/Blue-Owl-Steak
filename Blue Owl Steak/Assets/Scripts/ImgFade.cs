@@ -21,6 +21,7 @@ public class ImgFade : MonoBehaviour
 
     public void FadeToBlack()
     {
+        GameManager.instance.playerController.disabled = true;
         fadingToBlack = true;
         fading = true;
     }
@@ -51,6 +52,7 @@ public class ImgFade : MonoBehaviour
 
     public void FadeFromBlack()
     {
+        GameManager.instance.playerController.disabled = false;
         fading = true;
     }
 }

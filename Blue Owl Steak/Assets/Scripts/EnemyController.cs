@@ -44,9 +44,18 @@ public class EnemyController : MonoBehaviour, IDamageable
     }
     private void Update()
     {
-        anim.SetFloat("forwardMovement", Vector3.Dot(agent.velocity, transform.forward));
-        anim.SetFloat("rightMovement", Vector3.Dot(agent.velocity, transform.forward));
-        anim.SetFloat("distanceToPlayer", (player.transform.position - transform.position).magnitude);
+        if (!GameManager.instance.playerController.disabled)
+        {
+            anim.SetFloat("forwardMovement", Vector3.Dot(agent.velocity, transform.forward));
+            anim.SetFloat("rightMovement", Vector3.Dot(agent.velocity, transform.forward));
+            anim.SetFloat("distanceToPlayer", (player.transform.position - transform.position).magnitude);
+        }
+        else
+        {
+            anim.SetFloat("forwardMovement", 0);
+            anim.SetFloat("rightMovement", 0);
+            anim.SetFloat("distanceToPlayer", 100);
+        }
     }
     public void TakeDamage(float damage)
     {
@@ -82,7 +91,7 @@ public class EnemyController : MonoBehaviour, IDamageable
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Player")
+        if (other.tag == "Player")
         {
             player.GetComponent<PlayerController>().TakeDamage(damage);
         }

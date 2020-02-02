@@ -5,7 +5,9 @@ using UnityEngine.AI;
 
 public class Generation : MonoBehaviour
 {
-    public NavMeshSurface surface;
+    public Transform Player;
+    public Transform StartPos;
+    public NavMeshSurface[] surfaces;
     [Space(10)]
     public List<Transform> points = new List<Transform>();
     public List<Transform> startingpoints = new List<Transform>();
@@ -15,13 +17,21 @@ public class Generation : MonoBehaviour
 
     int num;
     Transform currentlyMoving;
-    
 
+    private void Awake()
+    {
+        GenerateWorld();
+    }
     // Start is called before the first frame update
     void Start()
     {
-        GenerateWorld();
-        //surface.BuildNavMesh();
+        StartPos = GameObject.Find("StartPos").transform;
+        Player.position = StartPos.position;
+        
+        for (int i = 0; i < surfaces.Length; i++)
+        {
+            surfaces[i].BuildNavMesh();
+        }
     }
 
     // Update is called once per frame

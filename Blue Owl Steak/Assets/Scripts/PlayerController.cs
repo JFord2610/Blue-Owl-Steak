@@ -110,17 +110,16 @@ public class PlayerController : MonoBehaviour
         #endregion
 
         #region interacting
-        if (holdingObject)
+        if (holdingObject && objectBeingHeld != null)
         {
-            if (Vector3.Distance(holdingPoint.transform.position, objectBeingHeld.transform.position) >= 0.01f)
-                objectBeingHeld.transform.position = Vector3.Lerp(objectBeingHeld.transform.position, holdingPoint.transform.position, Time.deltaTime);
+            //if (Vector3.Distance(holdingPoint.transform.position, objectBeingHeld.transform.position) >= 0.01f)
+            //    objectBeingHeld.transform.position = Vector3.Lerp(objectBeingHeld.transform.position, holdingPoint.transform.position, Time.deltaTime);
             if (Input.GetKeyDown(KeyCode.F))
             {
                 EventManager.InvokePlayerDroppedItem();
                 holdingObject = false;
                 objectBeingHeld.transform.parent = transform.parent;
                 heldObjectRB = objectBeingHeld.GetComponent<Rigidbody>();
-                heldObjectRB.isKinematic = false;
                 heldObjectRB.useGravity = true;
                 heldObjectRB.velocity = cc.velocity;
             }
@@ -132,8 +131,6 @@ public class PlayerController : MonoBehaviour
             if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, 2.0f, LayerMask.GetMask("Interactable")))
             {
                 hit.transform.parent = holdingPoint.transform;
-                hit.transform.rotation = Quaternion.Euler(0, cam.transform.rotation.y, 0);
-                hit.transform.GetComponent<Rigidbody>().isKinematic = true;
                 hit.transform.GetComponent<Rigidbody>().useGravity = false;
                 objectBeingHeld = hit.transform.gameObject;
                 holdingObject = true;
@@ -173,18 +170,17 @@ public class PlayerController : MonoBehaviour
         swordCol.enabled = true;
     }
 
-    IEnumerator LerpRotation(Transform obj)
-    {
-        while (Vector3.Distance(cam.transform.rotation.eulerAngles, obj.rotation.eulerAngles) >= 0.01f)
-        {
-            obj.rotation = Quaternion.Euler(Vector3.Lerp(obj.rotation.eulerAngles, cam.transform.rotation.eulerAngles, Time.deltaTime));
-            yield return new WaitForFixedUpdate();
-        }
-    }
-
     public delegate void HealthHandler(float _health, float _maxHealth);
     public static HealthHandler HealthChangedEvent;
 
     public delegate void EventHandler();
     public static EventHandler DeathEvent;
+
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        Rigidbody rb = hit.collider.attachedRigidbody;
+        if (rb == null || rb.isKinematic || hit.moveDirection.y < -0.3f) return;
+        Vector3 dir = new Vector3(hit.moveDirection.x, 0, hit.moveDirection.z);
+        rb.velocity = dir * 2.0f;
+    }
 }
