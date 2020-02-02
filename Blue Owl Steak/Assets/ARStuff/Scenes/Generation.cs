@@ -21,12 +21,12 @@ public class Generation : MonoBehaviour
     private void Awake()
     {
         GenerateWorld();
+        StartPos = GameObject.Find("StartPos").transform;
+        Player.position = StartPos.position;
     }
     // Start is called before the first frame update
     void Start()
     {
-        StartPos = GameObject.Find("StartPos").transform;
-        Player.position = StartPos.position;
         
         for (int i = 0; i < surfaces.Length; i++)
         {

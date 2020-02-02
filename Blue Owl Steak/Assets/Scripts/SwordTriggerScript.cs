@@ -22,7 +22,6 @@ public class SwordTriggerScript : MonoBehaviour
             bloodSplat.transform.position = transform.position;
             EnemyController enemyController = other.gameObject.GetComponent<EnemyController>();
             enemyController.TakeDamage(GameManager.instance.playerController.swordDamage);
-            enemyController.Knockback((transform.position - enemyController.transform.position).normalized);
 
             Invoke("DestroyParticles", 1.5f);
 
