@@ -33,15 +33,6 @@ public class UIManager : MonoBehaviour
         EventManager.GameWinEvent -= OnWin;
     }
 
-    private void Update()
-    {
-        if(canInteract)
-            fToInteract.SetActive(true);
-        else
-            fToInteract.SetActive(false);
-
-    }
-
     IEnumerator DeathRoutine()
     {
         while (redFade.color.a <= 0.7f)
