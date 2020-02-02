@@ -544,7 +544,7 @@ GameObject:
   - component: {fileID: 293680165}
   - component: {fileID: 293680164}
   m_Layer: 0
-  m_Name: Terrain
+  m_Name: BoundsTerrain
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -601,12 +601,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 293680163}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -220, y: -0.05, z: -220}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_Father: {fileID: 1548767855}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &299892195 stripped
 GameObject:
@@ -2359,21 +2359,6 @@ MonoBehaviour:
   m_VoxelSize: 0.16666667
   m_BuildHeightMesh: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &1373729833 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8335208587562149473, guid: 14e1fa2957777f444a1b94d38f158b1a,
-    type: 3}
-  m_PrefabInstance: {fileID: 1066933025}
-  m_PrefabAsset: {fileID: 0}
---- !u!45 &1373729837
-Skybox:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1373729833}
-  m_Enabled: 1
-  m_CustomSkybox: {fileID: 2100000, guid: 18a18be315858d64c9a8ce50ccd52e64, type: 2}
 --- !u!1 &1379231250
 GameObject:
   m_ObjectHideFlags: 0
@@ -2581,6 +2566,7 @@ Transform:
   - {fileID: 2003322169}
   - {fileID: 12622908}
   - {fileID: 1379231251}
+  - {fileID: 293680166}
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
