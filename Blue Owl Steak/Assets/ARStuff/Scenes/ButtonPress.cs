@@ -5,19 +5,22 @@ using UnityEngine;
 public class ButtonPress : MonoBehaviour
 {
     bool isclose;
-    public GameObject linkedto;
+    public List<GameObject> linkedto = new List<GameObject>();
 
     public void Update()
     {
-        if(isclose == true && Input.GetKeyDown(KeyCode.F))
+        if (isclose == true && Input.GetKeyDown(KeyCode.F))
         {
-            if (linkedto.transform.GetComponent<Conveyor>() != null)
+            for (int i = 0; i < linkedto.Count; i++)
             {
-                linkedto.transform.GetComponent<Conveyor>().Click();
-            }
-            else if (linkedto.transform.GetComponent<LockedDoor>() != null)
-            {
-                linkedto.transform.GetComponent<LockedDoor>().Click();
+                if (linkedto[i].transform.GetComponent<Conveyor>() != null)
+                {
+                    linkedto[i].transform.GetComponent<Conveyor>().Click();
+                }
+                else if (linkedto[i].transform.GetComponent<LockedDoor>() != null)
+                {
+                    linkedto[i].transform.GetComponent<LockedDoor>().Click();
+                }
             }
         }
     }
