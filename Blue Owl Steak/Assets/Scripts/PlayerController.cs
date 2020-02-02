@@ -116,6 +116,14 @@ public class PlayerController : MonoBehaviour
         #endregion
 
         #region interacting
+        RaycastHit hit;
+        bool hasHit = Physics.SphereCast(cam.transform.position, 0.75f, cam.transform.forward, out hit, grabRange, LayerMask.GetMask("Interactable"));
+
+        if(hasHit && !holdingObject)
+            GameManager.instance.uiManager.canInteract = true;
+        else
+            GameManager.instance.uiManager.canInteract = false;
+
         if (objectBeingHeld == null)
         {
             holdingObject = false;
@@ -141,9 +149,8 @@ public class PlayerController : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.F))
         {
-            RaycastHit hit;
             //Debug.DrawRay(cam.transform.position, cam.transform.forward, Color.red, 2.0f);
-            if (Physics.SphereCast(cam.transform.position, 0.75f, cam.transform.forward, out hit, grabRange, LayerMask.GetMask("Interactable")))
+            if (hasHit)
             {
                 hit.transform.parent = holdingPoint.transform;
                 objectBeingHeld = hit.transform.gameObject;
