@@ -54,8 +54,8 @@ public class SpawnManager : MonoBehaviour
         {
             for (int i = 0; i < amountspawning; i++)
             {
-                YSpawnLoc = Random.Range(-170, 170);
-                XSpawnLoc = Random.Range(-170, 170);
+                YSpawnLoc = Random.Range(-140, 140);
+                XSpawnLoc = Random.Range(-140, 140);
 
 
                 Instantiate(EnemyTypes[Random.Range(0, EnemyTypes.Length)], new Vector3(XSpawnLoc, 0, YSpawnLoc), Quaternion.identity);           
