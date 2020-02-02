@@ -57,6 +57,7 @@ public class UIManager : MonoBehaviour
 
     void OnWin()
     {
+        SoundManager.instance.Pause();
         StartCoroutine("FadeWinIn");
         Invoke("ActivateButtons", fadeSpeed);
         Cursor.visible = true;

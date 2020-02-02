@@ -44,10 +44,13 @@ public class SoundManager : MonoBehaviour
         EnemyTakeDamageEvent -= OnEnemyTakeDamage;
     }
     
-
-    void OnLoadLevel()
+    public void Pause()
     {
-
+        soundManagerSource.Pause();
+    }
+    public void UnPause()
+    {
+        soundManagerSource.Play();
     }
 
     public void PlayRepair()
