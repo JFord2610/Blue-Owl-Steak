@@ -110,7 +110,7 @@ public class PlayerController : MonoBehaviour
         #endregion
 
         #region interacting
-        if (holdingObject)
+        if (holdingObject && objectBeingHeld != null)
         {
             //if (Vector3.Distance(holdingPoint.transform.position, objectBeingHeld.transform.position) >= 0.01f)
             //    objectBeingHeld.transform.position = Vector3.Lerp(objectBeingHeld.transform.position, holdingPoint.transform.position, Time.deltaTime);

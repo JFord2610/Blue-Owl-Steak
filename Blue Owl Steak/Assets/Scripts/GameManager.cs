@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
     public PlayerController playerController = null;
     public RocketScript rocket = null;
     public ImgFade fade = null;
+    public GameObject[] parts = null;
 
     private void Awake()
     {
@@ -15,5 +16,6 @@ public class GameManager : MonoBehaviour
         fade = GameObject.Find("imgFade").GetComponent<ImgFade>();
         rocket = GameObject.Find("Rocket").GetComponent<RocketScript>();
         playerController = player.GetComponent<PlayerController>();
+        parts = GameObject.FindGameObjectsWithTag("Part");
     }
 }
