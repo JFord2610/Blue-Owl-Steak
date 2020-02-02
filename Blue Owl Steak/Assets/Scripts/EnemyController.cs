@@ -76,6 +76,11 @@ public class EnemyController : MonoBehaviour, IDamageable
 
     void Kill()
     {
+        anim.SetTrigger("Death");
+    }
+
+    public void DestroyObject()
+    {
         Destroy(gameObject);
     }
 
