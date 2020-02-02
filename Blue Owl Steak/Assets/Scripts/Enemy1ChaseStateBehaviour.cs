@@ -22,6 +22,8 @@ public class Enemy1ChaseStateBehaviour : StateMachineBehaviour
         enemyTransform = animator.transform;
         enemyController = animator.GetComponent<EnemyController>();
         enemyAgent = animator.GetComponent<NavMeshAgent>();
+
+        SoundManager.InvokeEnemyStartWalking(animator.GetComponent<AudioSource>());
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -41,7 +43,6 @@ public class Enemy1ChaseStateBehaviour : StateMachineBehaviour
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-
+        SoundManager.InvokeEnemyStopWalking(animator.GetComponent<AudioSource>());
     }
-
 }
