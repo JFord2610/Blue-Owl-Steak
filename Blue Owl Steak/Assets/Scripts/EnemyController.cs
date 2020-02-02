@@ -34,6 +34,7 @@ public class EnemyController : MonoBehaviour, IDamageable
     Animator anim = null;
     GameObject player = null;
     [SerializeField] BoxCollider col = null;
+    AudioSource source = null;
 
     bool dead = false;
     void Start()
@@ -42,6 +43,7 @@ public class EnemyController : MonoBehaviour, IDamageable
         agent = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
         player = GameManager.instance.player;
+        source = GetComponent<AudioSource>();
         Health = MaxHealth;
     }
     private void Update()
@@ -59,11 +61,22 @@ public class EnemyController : MonoBehaviour, IDamageable
             anim.SetFloat("rightMovement", 0);
             anim.SetFloat("distanceToPlayer", 100);
         }
+        //if(agent.velocity.magnitude >= 0.001f)
+        //{
+        //    source.clip = SoundManager.walking;
+        //    source.loop = true;
+        //}
+        //else
+        //{
+        //    source.loop = false;
+        //    source.Stop();
+        //}
     }
     public void TakeDamage(float damage)
     {
         if (dead) return;
         anim.SetTrigger("Damaged");
+        SoundManager.InvokeEnemyTakeDamage(source);
         Health -= damage;
     }
 

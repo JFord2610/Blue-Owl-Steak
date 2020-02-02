@@ -231,11 +231,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 5797019112554289054, guid: 45faef653252d224d8256b1ca5919e50,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5797019112926671987, guid: 45faef653252d224d8256b1ca5919e50,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -339,21 +334,6 @@ PrefabInstance:
     - target: {fileID: 5797019112926671987, guid: 45faef653252d224d8256b1ca5919e50,
         type: 3}
       propertyPath: m_Pivot.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5797019112926671987, guid: 45faef653252d224d8256b1ca5919e50,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5797019112926671987, guid: 45faef653252d224d8256b1ca5919e50,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5797019112926671987, guid: 45faef653252d224d8256b1ca5919e50,
-        type: 3}
-      propertyPath: m_LocalScale.z
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5797019112926671991, guid: 45faef653252d224d8256b1ca5919e50,
@@ -868,23 +848,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1242092845, guid: 52f49798405dc704ea2a5000e45f44c4, type: 3}
-      propertyPath: m_RaycastTarget
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1983759522, guid: 52f49798405dc704ea2a5000e45f44c4, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
-      value: Level
-      objectReference: {fileID: 0}
     - target: {fileID: 8142109198821908155, guid: 52f49798405dc704ea2a5000e45f44c4,
         type: 3}
       propertyPath: m_Name
       value: Canvas
-      objectReference: {fileID: 0}
-    - target: {fileID: 8142109198821908155, guid: 52f49798405dc704ea2a5000e45f44c4,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8142109198821908156, guid: 52f49798405dc704ea2a5000e45f44c4,
         type: 3}
