@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour
             HealthChangedEvent?.Invoke(_health, MaxHealth);
         }
     }
-    [SerializeField] float MaxHealth = 100.0f;
+    public float MaxHealth = 100.0f;
 
     //variables
     [Header("General")]
@@ -36,8 +36,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float jumpSpeed = 10.0f;
     public float swordDamage = 50.0f;
 
-    public bool dead = false;
-    public bool disabled = false;
+    [SerializeField] float grabRange = 2.0f;
+    [SerializeField] float letGoRange = 2.5f;
+
+    [HideInInspector] public bool dead = false;
+    [HideInInspector] public bool disabled = false;
 
     [HideInInspector] public GameObject objectBeingHeld = null;
     Rigidbody heldObjectRB = null;
@@ -49,11 +52,13 @@ public class PlayerController : MonoBehaviour
     Camera cam = null;
     Animator anim = null;
     [SerializeField] BoxCollider swordCol = null;
+    [SerializeField] GameObject sword = null;
 
     Vector3 startPos = Vector3.zero;
     Vector3 moveVec = Vector3.zero;
+    Vector3 smoothDampVel = Vector3.zero;
     float xRot = 0.0f;
-    [SerializeField] float yRot = 0.0f;
+    float yRot = 0.0f;
     private void Start()
     {
         cc = GetComponent<CharacterController>();
@@ -110,30 +115,40 @@ public class PlayerController : MonoBehaviour
         #endregion
 
         #region interacting
+        if (objectBeingHeld == null)
+        {
+            holdingObject = false;
+        }
         if (holdingObject && objectBeingHeld != null)
         {
-            //if (Vector3.Distance(holdingPoint.transform.position, objectBeingHeld.transform.position) >= 0.01f)
-            //    objectBeingHeld.transform.position = Vector3.Lerp(objectBeingHeld.transform.position, holdingPoint.transform.position, Time.deltaTime);
+            float distToObject = Vector3.Distance(holdingPoint.transform.position, objectBeingHeld.transform.position);
+            if (distToObject >= 0.01f)
+            {
+                objectBeingHeld.transform.position = Vector3.SmoothDamp(objectBeingHeld.transform.position, holdingPoint.transform.position, ref smoothDampVel, 0.3f);
+                if (heldObjectRB.velocity.magnitude >= 1.0f)
+                    heldObjectRB.velocity *= 0.5f;
+            }
+            else if (distToObject >= letGoRange)
+            {
+                DropHeldObject();
+            }
             if (Input.GetKeyDown(KeyCode.F))
             {
-                EventManager.InvokePlayerDroppedItem();
-                holdingObject = false;
-                objectBeingHeld.transform.parent = transform.parent;
-                heldObjectRB = objectBeingHeld.GetComponent<Rigidbody>();
-                heldObjectRB.useGravity = true;
-                heldObjectRB.velocity = cc.velocity;
+                DropHeldObject();
             }
         }
         else if (Input.GetKeyDown(KeyCode.F))
         {
             RaycastHit hit;
             //Debug.DrawRay(cam.transform.position, cam.transform.forward, Color.red, 2.0f);
-            if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, 2.0f, LayerMask.GetMask("Interactable")))
+            if (Physics.SphereCast(cam.transform.position, 0.75f, cam.transform.forward, out hit, grabRange, LayerMask.GetMask("Interactable")))
             {
                 hit.transform.parent = holdingPoint.transform;
-                hit.transform.GetComponent<Rigidbody>().useGravity = false;
                 objectBeingHeld = hit.transform.gameObject;
+                heldObjectRB = objectBeingHeld.GetComponent<Rigidbody>();
+                heldObjectRB.useGravity = false;
                 holdingObject = true;
+                sword.SetActive(false);
             }
         }
         #endregion
@@ -147,6 +162,18 @@ public class PlayerController : MonoBehaviour
 
         anim.SetFloat("MoveSpeed", cc.velocity.magnitude);
         cc.Move(moveVec * Time.deltaTime);
+    }
+
+    public void DropHeldObject()
+    {
+        EventManager.InvokePlayerDroppedItem();
+        objectBeingHeld.transform.parent = transform.parent;
+        heldObjectRB = objectBeingHeld.GetComponent<Rigidbody>();
+        heldObjectRB.velocity = cc.velocity;
+        heldObjectRB.useGravity = true;
+        holdingObject = false;
+        objectBeingHeld = null;
+        sword.SetActive(true);
     }
 
     void Death()

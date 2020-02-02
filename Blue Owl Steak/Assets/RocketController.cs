@@ -14,6 +14,7 @@ public class RocketController : MonoBehaviour
     GameObject Phase1 = null;
     GameObject Phase2 = null;
     GameObject Phase3 = null;
+    Transform spawnPoint = null;
 
     [SerializeField] float gatherDistance = 5.0f;
     uint partsGathered = 0;
@@ -23,6 +24,7 @@ public class RocketController : MonoBehaviour
         Phase1 = transform.Find("RocketPhaseOne").gameObject;
         Phase2 = transform.Find("RocketPhaseTwo").gameObject;
         Phase3 = transform.Find("RocketPhaseThree").gameObject;
+        spawnPoint = GameObject.Find("StartPos").transform;
     }
 
     private void Update()
@@ -37,7 +39,10 @@ public class RocketController : MonoBehaviour
                 //init fade
                 GameManager.instance.fade.FadeToBlack();
                 Invoke("UpgradeShip", 4.0f);
-                Destroy(part); 
+
+                //drop part then delete it
+                GameManager.instance.playerController.DropHeldObject();
+                Destroy(part);
             }
         }
     }
@@ -60,5 +65,9 @@ public class RocketController : MonoBehaviour
                 //win game
                 break;
         }
+
+        //move player and heal player
+        GameManager.instance.playerController.Health = GameManager.instance.playerController.MaxHealth;
+        GameManager.instance.player.transform.position = spawnPoint.position;
     }
 }
