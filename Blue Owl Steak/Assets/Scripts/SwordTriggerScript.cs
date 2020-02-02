@@ -17,7 +17,7 @@ public class SwordTriggerScript : MonoBehaviour
     {
         if(other.tag == "Enemy")
         {
-            GameObject bloodSplat = Instantiate<GameObject>(bloodSplatPrefab);
+            GameObject bloodSplat = Instantiate(bloodSplatPrefab);
             bloodSplat.transform.LookAt(other.transform.position);
             bloodSplat.transform.position = transform.position;
             EnemyController enemyController = other.gameObject.GetComponent<EnemyController>();

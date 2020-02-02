@@ -40,7 +40,7 @@ public class RocketScript : MonoBehaviour
         playerController.disabled = false;
         partCount++;
         Debug.Log($"Part Count: {partCount}");
-        if (partCount == 1)
+        if (partCount == 3)
         {
             EventManager.InvokeGameWinEvent();
         }
