@@ -29,22 +29,21 @@ public class RocketController : MonoBehaviour
 
     private void Update()
     {
-        //check if parts are near the rockets, if they are close enough, start the fade out and model switch
-        foreach (GameObject part in GameManager.instance.parts)
-        {
-            if (part == null) continue;
-            float dist = (new Vector3(part.transform.position.x, 0, part.transform.position.z) - transform.position).magnitude;
-            if (dist <= gatherDistance)
+        if (GameManager.instance.parts != null)
+            //check if parts are near the rockets, if they are close enough, start the fade out and model switch
+            foreach (GameObject part in GameManager.instance.parts)
             {
-                //init fade
-                GameManager.instance.fade.FadeToBlack();
-                Invoke("UpgradeShip", 4.0f);
+                if (part == null) continue;
+                float dist = (new Vector3(part.transform.position.x, 0, part.transform.position.z) - transform.position).magnitude;
+                if (dist <= gatherDistance)
+                {
+                    Destroy(part);
+                    Invoke("UpgradeShip", 4.0f);
 
-                //drop part then delete it
-                GameManager.instance.playerController.DropHeldObject();
-                Destroy(part);
+                    //init fade
+                    GameManager.instance.fade.FadeToBlack();
+                }
             }
-        }
     }
 
     private void UpgradeShip()

@@ -119,6 +119,7 @@ public class PlayerController : MonoBehaviour
         if (objectBeingHeld == null)
         {
             holdingObject = false;
+            sword.SetActive(true);
         }
         if (holdingObject && objectBeingHeld != null)
         {
