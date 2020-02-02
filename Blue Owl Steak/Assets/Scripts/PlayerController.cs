@@ -65,6 +65,7 @@ public class PlayerController : MonoBehaviour
         anim = GetComponent<Animator>();
         cam = Camera.main;
         Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
 
         Health = MaxHealth;
     }

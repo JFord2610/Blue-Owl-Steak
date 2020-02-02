@@ -66,19 +66,6 @@ public class EnemyController : MonoBehaviour, IDamageable
         anim.SetTrigger("Damaged");
         Health -= damage;
     }
-    public void Knockback(Vector3 _dir)
-    {
-        if (dead) return;
-        StartCoroutine("KnockbackRoutine", _dir);
-    }
-    IEnumerator KnockbackRoutine(Vector3 _dir)
-    {
-        for (int i = 0; i < 30; i++)
-        {
-            transform.position = Vector3.Lerp(transform.position, _dir * 5.0f, Time.deltaTime);
-            yield return new WaitForEndOfFrame();
-        }
-    }
 
     void Kill()
     {
