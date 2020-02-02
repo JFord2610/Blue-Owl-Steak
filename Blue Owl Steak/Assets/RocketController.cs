@@ -16,7 +16,7 @@ public class RocketController : MonoBehaviour
     GameObject Phase3 = null;
 
     [SerializeField] float gatherDistance = 5.0f;
-    uint partsGathered = 2;
+    uint partsGathered = 0;
 
     private void Start()
     {

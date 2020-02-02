@@ -139,7 +139,7 @@ public class PlayerController : MonoBehaviour
         #endregion
 
         #region combat
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !holdingObject)
         {
             anim.SetTrigger("Attack");
         }

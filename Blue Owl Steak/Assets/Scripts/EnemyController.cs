@@ -34,6 +34,8 @@ public class EnemyController : MonoBehaviour, IDamageable
     Animator anim = null;
     GameObject player = null;
     [SerializeField] BoxCollider col = null;
+
+    bool dead = false;
     void Start()
     {
         startPos = transform.position;
@@ -44,6 +46,7 @@ public class EnemyController : MonoBehaviour, IDamageable
     }
     private void Update()
     {
+        if (dead) return;
         if (!GameManager.instance.playerController.disabled)
         {
             anim.SetFloat("forwardMovement", Vector3.Dot(agent.velocity, transform.forward));
@@ -59,11 +62,13 @@ public class EnemyController : MonoBehaviour, IDamageable
     }
     public void TakeDamage(float damage)
     {
+        if (dead) return;
         anim.SetTrigger("Damaged");
         Health -= damage;
     }
     public void Knockback(Vector3 _dir)
     {
+        if (dead) return;
         StartCoroutine("KnockbackRoutine", _dir);
     }
     IEnumerator KnockbackRoutine(Vector3 _dir)
@@ -78,6 +83,7 @@ public class EnemyController : MonoBehaviour, IDamageable
     void Kill()
     {
         anim.SetTrigger("Death");
+        dead = true;
     }
 
     public void DestroyObject()

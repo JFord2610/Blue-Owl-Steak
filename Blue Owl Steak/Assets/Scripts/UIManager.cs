@@ -48,7 +48,7 @@ public class UIManager : MonoBehaviour
 
     void ReloadScene()
     {
-        SceneManager.LoadScene("JohnScene");
+        SceneManager.LoadScene("Level");
     }
 
     void OnWin()
