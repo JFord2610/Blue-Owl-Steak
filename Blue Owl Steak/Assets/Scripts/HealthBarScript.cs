@@ -10,6 +10,10 @@ public class HealthBarScript : MonoBehaviour
     {
         PlayerController.HealthChangedEvent += OnHealthChanged;
     }
+    private void OnDestroy()
+    {
+        PlayerController.HealthChangedEvent -= OnHealthChanged;
+    }
 
     void OnHealthChanged(float _health, float _maxHealth)
     {

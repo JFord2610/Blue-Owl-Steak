@@ -61,7 +61,14 @@ public class SoundManager : MonoBehaviour
     }
     void OnEnemyTakeDamage(AudioSource source)
     {
-        source.PlayOneShot(splat);
+        source.Stop();
+        source.clip = splat;
+        StartCoroutine("idk", source);//it wont work if i just call play here idk its weird
+    }
+    IEnumerator idk(AudioSource source)
+    {
+        yield return null;
+        source.Play();
     }
 
     IEnumerator PlayWalk(AudioAndTime aot)
